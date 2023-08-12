@@ -5,7 +5,6 @@ from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import (ConversationBufferMemory, 
                                                   ConversationSummaryMemory, 
                                                   ConversationBufferWindowMemory
-               
                                                   )
 
 if 'conversation' not in st.session_state:
@@ -28,7 +27,7 @@ if summarise_button:
     #summarise_placeholder.write("Nice chatting with you my friend ❤️:\n\n"+st.session_state['conversation'].memory.buffer)
 
 #import os
-#os.environ["OPENAI_API_KEY"] = "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"
+#os.environ["OPENAI_API_KEY"] = ""
 
 def getresponse(userInput, api_key):
 
@@ -48,16 +47,12 @@ def getresponse(userInput, api_key):
 
     response=st.session_state['conversation'].predict(input=userInput)
     print(st.session_state['conversation'].memory.buffer)
-    
-
     return response
-
 
 
 response_container = st.container()
 # Here we will have a container for user input text box
 container = st.container()
-
 
 with container:
     with st.form(key='my_form', clear_on_submit=True):
@@ -67,8 +62,7 @@ with container:
         if submit_button:
             st.session_state['messages'].append(user_input)
             model_response=getresponse(user_input,st.session_state['API_Key'])
-            st.session_state['messages'].append(model_response)
-            
+            st.session_state['messages'].append(model_response)            
 
             with response_container:
                 for i in range(len(st.session_state['messages'])):
@@ -76,7 +70,3 @@ with container:
                             message(st.session_state['messages'][i], is_user=True, key=str(i) + '_user')
                         else:
                             message(st.session_state['messages'][i], key=str(i) + '_AI')
-        
-             
-
-        
